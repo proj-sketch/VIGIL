@@ -1,35 +1,43 @@
-# ── Web framework ────────────────────────────────────────────────────────────
+# ── Web framework ─────────────────────────────────────────────────────────────
+# Pre-built wheels available for Python 3.12 on all platforms (no Rust required)
 fastapi==0.115.0
 uvicorn[standard]==0.30.6
 python-multipart==0.0.9
 
 # ── Database ──────────────────────────────────────────────────────────────────
 sqlalchemy==2.0.35
-asyncpg==0.31.0          # 0.31.0 = first release with Python 3.14 wheels
+asyncpg==0.29.0           # 0.29.x has stable cp312 Linux manylinux wheels
 alembic==1.13.3
 
 # ── Validation & config ───────────────────────────────────────────────────────
-pydantic==2.9.2
+# IMPORTANT: pydantic-core 2.13.5 / 2.46.5 have cp312 manylinux pre-built wheels.
+# DO NOT pin to 2.9.2 — that version uses an older pydantic-core that requires
+# Rust compilation on Python 3.12+ Linux and will fail on Render/Railway.
+pydantic==2.13.5
+pydantic-core==2.46.5
 pydantic-settings==2.5.2
 
 # ── Auth ──────────────────────────────────────────────────────────────────────
 PyJWT==2.9.0
 passlib[bcrypt]==1.7.4
-bcrypt==3.2.2            # 4.x requires Rust; 3.x has pre-built Windows wheels
-cryptography==42.0.8     # pre-built wheels; avoids Rust-based compilation
+bcrypt==4.2.1             # 4.x has cp312 manylinux wheels; no Rust needed
+cryptography==43.0.3      # cp312 manylinux pre-built wheel
 
-# ── HTTP client (Nominatim, Gemini) ───────────────────────────────────────────
+# ── HTTP client ───────────────────────────────────────────────────────────────
 httpx==0.28.1
 
 # ── AssemblyAI ────────────────────────────────────────────────────────────────
 assemblyai==0.30.0
 websockets==13.1
 
-# ── Gemini (Structured Analysis Provider) ────────────────────────────────────
+# ── Gemini ────────────────────────────────────────────────────────────────────
+# google-genai is the NEW SDK used by the codebase (from google import genai)
+# google-generativeai is the deprecated SDK kept for compatibility only
+google-genai==2.25.0
 google-generativeai==0.8.2
 
 # ── Realtime / async helpers ──────────────────────────────────────────────────
-anyio==4.7.0
+anyio==4.15.1
 
 # ── Rate limiting ─────────────────────────────────────────────────────────────
 slowapi==0.1.9
