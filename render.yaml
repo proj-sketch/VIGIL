@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: vigil-backend
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: LOG_LEVEL
+        value: INFO
+      - key: DATABASE_URL
+        sync: false        # Set manually in Render dashboard
+      - key: JWT_SECRET_KEY
+        sync: false        # Set manually in Render dashboard
+      - key: JWT_ALGORITHM
+        value: HS256
+      - key: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "480"
+      - key: JWT_SESSION_TOKEN_EXPIRE_MINUTES
+        value: "240"
+      - key: JWT_WS_TICKET_EXPIRE_SECONDS
+        value: "60"
+      - key: ASSEMBLYAI_API_KEY
+        sync: false        # Set manually in Render dashboard
+      - key: GEMINI_API_KEY
+        sync: false        # Set manually in Render dashboard
+      - key: GEMINI_MODEL
+        value: gemini-2.5-flash-lite
+      - key: NOMINATIM_USER_AGENT
+        value: "EmergencyResponseVoiceAgent/1.0 (hackathon@example.com)"
+      - key: CORS_ORIGINS
+        sync: false        # Set manually: ["https://your-frontend.vercel.app"]
+    healthCheckPath: /api/v1/health
